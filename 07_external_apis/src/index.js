@@ -1,3 +1,7 @@
+// fetch('https://pokeapi.co/api/v2/pokemon/ditto')
+// .then(res => res.json())
+// .then(data => console.log(data))
+
 document.addEventListener('DOMContentLoaded', () => {
     // Fetch requests 
         // Function for making a GET request 
@@ -72,6 +76,19 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         function handleRenderSearch(){
+            // Imperative Syntax
+            // const form = document.createElement('form')
+            // const label = document.createElement('label') 
+            // const input1 = document.createElement('input') 
+            // const input2 = document.createElement('input')
+            
+            // input1.type = "text"
+            // input1.name = "search"
+            // input1.type = "submit"
+
+            // form.append(label, input1, input2)
+            
+            // Declarative Syntax
             document.querySelector('main').innerHTML = `
             <form id="api-Search">
                 <label>API Search<label>
@@ -82,11 +99,49 @@ document.addEventListener('DOMContentLoaded', () => {
 
             document.querySelector('#api-search').addEventListener('submit', handleAPIQuery)
         }
+
+        function renderBookResults(book) {
+            // Create container for each book
+            const div = document.createElement('div');
+            const h2 = document.createElement('h2');
+            const subtitle = document.createElement('p');
+            // const authors = [];
+            
+            h2.textContent = `Title: ${book.volumeInfo.title}`;
+            
+            // if (truthy value)
+            if(book.volumeInfo.subtitle) {
+                subtitle.textContent = `Subtitle: ${book.volumeInfo.subtitle}`;
+            } else {
+                subtitle.textContent = '(No Subtitle)';
+            }
+            
+            div.append(h2,subtitle);
+            
+            console.log(book.volumeInfo.authors);
+
+            book.volumeInfo.authors.forEach(author => {
+                const p = document.createElement('p');
+                p.textContent = `Author: ${author}`;
+
+                div.append(p);
+            });
+
+            document.querySelector('main').append(div);
+        }
+
         //Handles Google Books API search
         function handleAPIQuery(e){
-            e.preventDefault()
-            const search = e.target.search.value
-               
+            e.preventDefault();
+            const search = e.target.search.value;
+            
+            fetch(`https://www.googleapis.com/books/v1/volumes?q=${search}&key=${apiKey}`)
+            .then(res => res.json())
+            .then(books => { 
+                
+                // Pessimistic Rendering
+                books.items.forEach(renderBookResults)
+            });
         }
 
     

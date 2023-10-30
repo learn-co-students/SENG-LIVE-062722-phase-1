@@ -1,7 +1,7 @@
 //Data 
 const inventory = [
         {
-            id:1,
+            id: 1,
             title: 'Eloquent JavaScript: A Modern Introduction to Programming',
             author: 'Marjin Haverbeke',
             price: 10.00,
@@ -11,7 +11,7 @@ const inventory = [
             
         },
         {
-            id:2,
+            id: 2,
             title: 'JavaScript & JQuery: Interactive Front-End Web Development',
             author: 'Jon Duckett',
             price: 45.75,
@@ -20,7 +20,7 @@ const inventory = [
             imageUrl: 'https://images-na.ssl-images-amazon.com/images/I/31SRWF+LkKL._SX398_BO1,204,203,200_.jpg'
         },
         {
-            id:3,
+            id: 3,
             title: 'JavaScript: The Good Parts',
             author: 'Douglas Crockford',
             price: 36.00,
@@ -29,7 +29,7 @@ const inventory = [
             imageUrl: 'https://images-na.ssl-images-amazon.com/images/I/5131OWtQRaL._SX218_BO1,204,203,200_QL40_FMwebp_.jpg',
         },
         {
-            id:4,
+            id: 4,
             title: 'JavaScript: The Definitive Guide',
             author: 'David Flanagan',
             price: 25.50,
@@ -39,7 +39,7 @@ const inventory = [
             
         },
         {
-            id:5,
+            id: 5,
             title: 'You Don’t Know JS',
             author: 'Kyle Simpson',
             price: 6.00,
@@ -48,7 +48,7 @@ const inventory = [
             imageUrl: 'https://images-na.ssl-images-amazon.com/images/I/41T5H8u7fUL._SX331_BO1,204,203,200_.jpg'
         }, 
         {
-            id:6,
+            id: 6,
             title: 'Learn Enough JavaScript to Be Dangerous',
             author: 'Michael Hartl',
             price: 24.00,
@@ -58,7 +58,7 @@ const inventory = [
 
         },
         {
-            id:7,
+            id: 7,
             title: 'Cracking the Coding Interview',
             author: 'Gayle Laakmann McDowell',
             price: 49.95,
@@ -68,3 +68,48 @@ const inventory = [
 
         }
     ]
+
+    // Function Declaration
+    function outputPriceVanilla(book) {
+        console.log(`$${book.price.toFixed(2)}`)
+    }
+
+    // Arrow Function
+    const outputPriceArrow = book => console.log(`$${book.price.toFixed(2)}`)
+
+    // Discounted Price
+    const outputDiscount = (book, discount) => (book.price / discount).toFixed(2)
+
+    function buildBook(title, price, author, imageUrl) {
+        const bookObj = {}
+        bookObj.title = title
+        bookObj.price = price
+        bookObj.author = author
+        imageUrl ? bookObj.imageUrl = imageUrl : bookObj.imageUrl = "/default_img.img"
+        return bookObj
+    }
+
+    // Function Invocation
+    outputPriceVanilla(inventory[1])
+    outputPriceArrow(inventory[1])
+
+    let newBook1 = buildBook("sample title", 10, "sample author")
+    let newBook2 = buildBook("title2", 20, "author2", "https://cdn.britannica.com/16/234216-050-C66F8665/beagle-hound-dog.jpg")
+    inventory.push(newBook1)
+    inventory.push(newBook2)
+
+    console.log(inventory)
+
+    function pullTitle(book) {
+        return book.title
+    }
+
+    function mapOverInventory(inventory, callback) {
+        const bookTitles = []
+        for (let book of inventory) {
+            bookTitles.push(callback(book))
+        }
+        return bookTitles
+    }
+
+    console.log(mapOverInventory(inventory, pullTitle))
